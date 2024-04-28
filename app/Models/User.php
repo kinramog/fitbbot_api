@@ -12,7 +12,6 @@ class User extends Model
     protected $table = "users";
 
     protected $fillable = [
-        "id",
         "chat_id",
         "total_water_amount",
     ];

@@ -15,8 +15,7 @@ class UserController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            "id" => "required | unique:users",
-            "chat_id" => "required",
+            "chat_id" => "required | unique:users",
             "total_water_amount" => "required",
         ]);
 
@@ -27,7 +26,6 @@ class UserController extends Controller
             ]);
         } else {
             $user = [
-                "id" => $data['id'],
                 "chat_id" => $data['chat_id'],
                 "total_water_amount" => $data['total_water_amount'],
             ];

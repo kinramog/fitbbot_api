@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('water_intakes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id');
             $table->unsignedInteger('water_amount');
             $table->timestamps();
 

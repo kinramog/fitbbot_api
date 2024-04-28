@@ -16,7 +16,7 @@ class WaterIntakeController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            "user_id" => "required",
+            "chat_id" => "required",
             "water_amount" => "required",
         ]);
 
@@ -26,8 +26,8 @@ class WaterIntakeController extends Controller
                 "message" => $validator->errors(),
             ]);
         } else {
-            if (User::where('id', $data['user_id'])->exists()) {
-                $user = User::find($data['user_id']);
+            if (User::where('chat_id', $data['chat_id'])->exists()) {
+                $user = User::where("chat_id", $data['chat_id']);
                 $water_intake = new WaterIntake([
                     "water_amount" => $data['water_amount']
                 ]);
