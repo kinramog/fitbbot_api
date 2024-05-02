@@ -44,7 +44,7 @@ class UserController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            "user_id" => "required",
+            "chat_id" => "required",
             "total_water_amount" => "required",
         ]);
 
@@ -54,7 +54,7 @@ class UserController extends Controller
                 "message" => $validator->errors(),
             ]);
         } else {
-            $user = User::find($data["user_id"]);
+            $user = User::where("chat_id", $data["chat_id"])->first();
             $user->update(["total_water_amount" => $data["total_water_amount"]]);
 
             return new JsonResponse([
@@ -68,8 +68,28 @@ class UserController extends Controller
     public function getUser(Request $request)
     {
         $data = $request->all();
-        $user = User::find($data["user_id"]);        
-        return new JsonResponse($user);
-        
+        $validator = Validator::make($data, [
+            "chat_id" => "required",
+        ]);
+        if ($validator->fails()) {
+            return new JsonResponse([
+                "success" => false,
+                "message" => $validator->errors(),
+            ]);
+        } else {
+            if (User::where('chat_id', $data['chat_id'])->exists()) {
+                $user = User::where("chat_id", $data["chat_id"])->first();
+                return new JsonResponse([
+                    "success" => true,
+                    "message" => "Success",
+                    "water_intake" => $user,
+                ]);
+            } else {
+                return new JsonResponse([
+                    "success" => false,
+                    "message" => "User doesn't exist",
+                ]);
+            }
+        }
     }
 }
