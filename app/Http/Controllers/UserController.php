@@ -17,6 +17,7 @@ class UserController extends Controller
         $validator = Validator::make($data, [
             "chat_id" => "required | unique:users",
             "total_water_amount" => "required",
+            "timezone" => "required",
         ]);
 
         if ($validator->fails()) {
@@ -28,6 +29,7 @@ class UserController extends Controller
             $user = [
                 "chat_id" => $data['chat_id'],
                 "total_water_amount" => $data['total_water_amount'],
+                "timezone" => $data['timezone'],
             ];
             User::create($user);
 
@@ -65,31 +67,21 @@ class UserController extends Controller
         }
     }
 
-    public function getUser(Request $request)
+    public function getUser($chat_id)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            "chat_id" => "required",
-        ]);
-        if ($validator->fails()) {
+        if (User::where('chat_id', $chat_id)->exists()) {
+            $user = User::where("chat_id", $chat_id)->first();
             return new JsonResponse([
-                "success" => false,
-                "message" => $validator->errors(),
+                "success" => true,
+                "message" => "Success",
+                "user" => $user,
             ]);
         } else {
-            if (User::where('chat_id', $data['chat_id'])->exists()) {
-                $user = User::where("chat_id", $data["chat_id"])->first();
-                return new JsonResponse([
-                    "success" => true,
-                    "message" => "Success",
-                    "water_intake" => $user,
-                ]);
-            } else {
-                return new JsonResponse([
-                    "success" => false,
-                    "message" => "User doesn't exist",
-                ]);
-            }
+            return new JsonResponse([
+                "success" => false,
+                "message" => "User doesn't exist",
+            ]);
         }
     }
+    
 }

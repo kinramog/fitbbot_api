@@ -15,6 +15,7 @@ class User extends Model
         "id",
         "chat_id",
         "total_water_amount",
+        "timezone",
     ];
 
     public function waterIntakes()
