@@ -83,5 +83,31 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function changeTimezone(Request $request)
+    {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            "chat_id" => "required",
+            "timezone" => "required",
+        ]);
+
+        if ($validator->fails()) {
+            return new JsonResponse([
+                "success" => false,
+                "message" => $validator->errors(),
+            ]);
+        } else {
+            $user = User::where("chat_id", $data["chat_id"])->first();
+            $user->update(["timezone" => $data["timezone"]]);
+
+            return new JsonResponse([
+                "success" => true,
+                "message" => "Success",
+                "user" => $user
+            ]);
+        }
+    }
     
 }

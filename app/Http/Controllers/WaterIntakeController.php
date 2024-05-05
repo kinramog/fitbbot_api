@@ -55,24 +55,10 @@ class WaterIntakeController extends Controller
             $user = User::where("chat_id", $chat_id)->first();
             $userIntakes = $user->waterIntakes;
             $timezone = $user->timezone;
-            $todayIntakes = $userIntakes->where('created_at', '>=', Carbon::today($timezone)->format('Y-m-d'));
+            $localDayStartInUTC = Carbon::today($timezone)->subHour(Carbon::today()->offsetHours);
 
-            // dd(Carbon::today()->setTimezone("Europe/Moscow"));
-            // $arr = [];
-            // foreach (\DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, 'RU') as $string) {
-            //     $tz = Carbon::now($string)->getTimezone();
-            //     // $arr[] = 'UTC'.$tz->toOffsetName().' '.$tz->toRegionName();
-            //     $arr[$tz->getOffset(Carbon::now($string))/3600][] = $tz->getName();
-            //     dump($tz->getOffset(Carbon::now($string)));
-            // }
-            // ksort($arr);
-            // dd($arr);
-            // Carbon::now()->setTimezone("UTC");
-            // $timestamp = '2014-02-06 16:34:00';
-            // $date = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Europe/Stockholm');
-            // $date->setTimezone('UTC');
-            // dd(Carbon::today("Asia/Yakutsk")->format('Y-m-d'));
-            
+            $todayIntakes = $userIntakes->where('created_at', '>=', $localDayStartInUTC);
+
             return new JsonResponse([
                 "success" => true,
                 "message" => "Success",
