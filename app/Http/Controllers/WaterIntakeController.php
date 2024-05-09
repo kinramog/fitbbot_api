@@ -58,7 +58,7 @@ class WaterIntakeController extends Controller
             $localDayStartInUTC = Carbon::today($timezone)->subHour(Carbon::today()->offsetHours);
 
             $todayIntakes = $userIntakes->where('created_at', '>=', $localDayStartInUTC);
-
+            
             return new JsonResponse([
                 "success" => true,
                 "message" => "Success",

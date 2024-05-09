@@ -16,8 +16,11 @@ class UserController extends Controller
 
         $validator = Validator::make($data, [
             "chat_id" => "required | unique:users",
-            "total_water_amount" => "required",
             "timezone" => "required",
+            "height" => "required",
+            "weight" => "required",
+            "age" => "required",
+            "gender" => "required",
         ]);
 
         if ($validator->fails()) {
@@ -28,8 +31,11 @@ class UserController extends Controller
         } else {
             $user = [
                 "chat_id" => $data['chat_id'],
-                "total_water_amount" => $data['total_water_amount'],
                 "timezone" => $data['timezone'],
+                "height" => $data["height"],
+                "weight" => $data["weight"],
+                "age" => $data["age"],
+                "gender" => $data["gender"],
             ];
             User::create($user);
 
@@ -100,6 +106,7 @@ class UserController extends Controller
             ]);
         } else {
             $user = User::where("chat_id", $data["chat_id"])->first();
+
             $user->update(["timezone" => $data["timezone"]]);
 
             return new JsonResponse([
@@ -109,5 +116,31 @@ class UserController extends Controller
             ]);
         }
     }
-    
+
+    public function changeParameters(Request $request)
+    {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            "chat_id" => "required",
+        ]);
+
+        if ($validator->fails()) {
+            return new JsonResponse([
+                "success" => false,
+                "message" => $validator->errors(),
+            ]);
+        } else {
+            $user = User::where("chat_id", $data["chat_id"])->first();
+            foreach (array_keys($data) as $key) {
+                $user->update([$key => $data[$key]]);
+            }
+
+            return new JsonResponse([
+                "success" => true,
+                "message" => "Success",
+                "user" => $user
+            ]);
+        }
+    }
 }

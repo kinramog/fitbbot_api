@@ -15,7 +15,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('id')->primary();
             $table->id();
             $table->unsignedBigInteger('chat_id');
-            $table->unsignedInteger('total_water_amount');
+            $table->unsignedInteger('total_water_amount')->default(0);
             $table->timestamps();
         });
     }

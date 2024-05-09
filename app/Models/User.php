@@ -16,6 +16,14 @@ class User extends Model
         "chat_id",
         "total_water_amount",
         "timezone",
+        "height",
+        "weight",
+        "age",
+        "gender",
+        "total_carbohydrate",
+        "total_fat",
+        "total_proteins",
+        "total_calories",
     ];
 
     public function waterIntakes()
