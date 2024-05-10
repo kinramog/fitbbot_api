@@ -21,6 +21,11 @@ class UserController extends Controller
             "weight" => "required",
             "age" => "required",
             "gender" => "required",
+            "total_water_amount" => "required",
+            "total_calories" => "required",
+            "total_proteins" => "required",
+            "total_fat" => "required",
+            "total_carbohydrate" => "required",
         ]);
 
         if ($validator->fails()) {
@@ -36,6 +41,11 @@ class UserController extends Controller
                 "weight" => $data["weight"],
                 "age" => $data["age"],
                 "gender" => $data["gender"],
+                "total_water_amount" => $data["total_water_amount"],
+                "total_calories" => $data["total_calories"],
+                "total_proteins" => $data["total_proteins"],
+                "total_fat" => $data["total_fat"],
+                "total_carbohydrate" => $data["total_carbohydrate"],
             ];
             User::create($user);
 
