@@ -30,4 +30,8 @@ class User extends Model
     {
         return $this->hasMany(WaterIntake::class, 'user_id', "id");
     }
+    public function meals()
+    {
+        return $this->hasMany(Meal::class, 'user_id', "id");
+    }
 }

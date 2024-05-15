@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('weight')->default(0)->after("timezone");
             $table->unsignedSmallInteger('height')->default(0)->after("timezone");
 
-            $table->unsignedInteger("total_carbohydrate")->default(0)->after("total_water_amount");
+            $table->unsignedInteger("total_carbohydrates")->default(0)->after("total_water_amount");
             $table->unsignedInteger("total_fat")->default(0)->after("total_water_amount");
             $table->unsignedInteger("total_proteins")->default(0)->after("total_water_amount");
             $table->unsignedInteger("total_calories")->default(0)->after("total_water_amount");
