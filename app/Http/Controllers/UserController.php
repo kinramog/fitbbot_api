@@ -25,7 +25,7 @@ class UserController extends Controller
             "total_calories" => "required",
             "total_proteins" => "required",
             "total_fat" => "required",
-            "total_carbohydrate" => "required",
+            "total_carbohydrates" => "required",
         ]);
 
         if ($validator->fails()) {
@@ -45,7 +45,7 @@ class UserController extends Controller
                 "total_calories" => $data["total_calories"],
                 "total_proteins" => $data["total_proteins"],
                 "total_fat" => $data["total_fat"],
-                "total_carbohydrate" => $data["total_carbohydrate"],
+                "total_carbohydrates" => $data["total_carbohydrates"],
             ];
             User::create($user);
 

@@ -20,7 +20,7 @@ class User extends Model
         "weight",
         "age",
         "gender",
-        "total_carbohydrate",
+        "total_carbohydrates",
         "total_fat",
         "total_proteins",
         "total_calories",
