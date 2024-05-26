@@ -14,3 +14,13 @@ Route::get('/pupa', function () {
     dd($users->waterIntakes[0]->water_amount);
 }
 );
+
+Route::get('/day-meals', function () {
+    // $wata = WaterIntake::find(1);    
+    // dump($wata->user->total_water_amount);
+    // $users = User::find(1);    
+    // dd($users->waterIntakes[0]->water_amount);
+
+    return view('dayMeals', ["id" => 228]);
+}
+);
