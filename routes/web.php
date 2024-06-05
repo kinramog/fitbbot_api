@@ -15,8 +15,8 @@ Route::get('/pupa', function () {
     }
 );
 
-Route::get('/day-meals/{user_id}', function ($user_id) {
-        return view('dayMeals', ["user_id" => $user_id]);
+Route::get('/day-meals/{chat_id}', function ($chat_id) {
+        return view('dayMeals', ["chat_id" => $chat_id]);
     }
 );
 

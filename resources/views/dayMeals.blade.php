@@ -1,10 +1,20 @@
 <?php
-// $wata = WaterIntake::find(1);
-// dump($wata->user->total_water_amount);
-// $users = User::find(1);
-// dd($users->waterIntakes[0]->water_amount);
-// dd("oka");
-dump($_POST);
+
+use App\Models\User;
+use Carbon\Carbon;
+
+$user = User::where("chat_id", $chat_id)->first();
+$userMeals = $user->meals;
+$timezone = $user->timezone;
+$localDayStartInUTC = Carbon::today($timezone)->subHour(Carbon::today()->offsetHours);
+
+$todayMeals = $userMeals->where('created_at', '>=', $localDayStartInUTC);
+// if (empty($todayMeals)) {
+//     $todayMeals[] = ""
+// }
+
+// dump($todayMeals);
+
 ?>
 
 <!DOCTYPE html>
@@ -25,9 +35,11 @@ dump($_POST);
             background: var(--tg-theme-bg-color);
             color: var(--tg-theme-text-color);
         }
+
         path {
             fill: var(--tg-theme-text-color);
         }
+
         .list-group-item {
             background-color: var(--tg-theme-secondary-bg-color);
             color: var(--tg-theme-text-color);
@@ -41,31 +53,31 @@ dump($_POST);
         <div class=" mt-5">
             <h2 class="text-center mb-4">Ваш рацион за сегодня</h2>
             <ul class="list-group">
-
+                @foreach($todayMeals as $todayMeal)
                 <li class="list-group-item  rounded mb-3 shadow-sm">
                     <div class="d-flex justify-content-between">
-                        <h5 class="mb-2">Яблоко</h5>
-                        <span class="text-muted small">2024-05-27 08:00</span>
+                        <h5 class="mb-2">{{$todayMeal["name"]}}</h5>
+                        <span class="text-muted small">{{$todayMeal["created_at"]}}</span>
                     </div>
                     <div class="d-flex justify-content-between mb-1">
                         <div class="d-flex flex-column">
                             <strong>Белки:</strong>
-                            <span>0.3 г</span>
+                            <span>{{$todayMeal["total_proteins"]}} г</span>
                         </div>
                         <div class="d-flex flex-column">
                             <strong>Жиры:</strong>
-                            <span>0.2 г</span>
+                            <span>{{$todayMeal["totals_fat"]}} г</span>
                         </div>
                         <div class="d-flex flex-column">
                             <strong>Углеводы:</strong>
-                            <span>14 г</span>
+                            <span>{{$todayMeal["total_carbohydrates"]}} г</span>
                         </div>
                     </div>
                     <hr class="my-1">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-column">
                             <strong>Калории:</strong>
-                            <span class="font-weight-bold">52</span>
+                            <span class="font-weight-bold">{{$todayMeal["total_calories"]}}</span>
                         </div>
                         <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle">
                             <svg width="15px" height="15px" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -76,6 +88,8 @@ dump($_POST);
                         </button>
                     </div>
                 </li>
+                @endforeach
+
 
                 <li class="list-group-item  rounded mb-3 shadow-sm">
                     <div class="d-flex justify-content-between">
@@ -147,10 +161,9 @@ dump($_POST);
             })
         }
 
-        let data =  fetch("", requestOptions)
+        let data = fetch("", requestOptions)
             .then(response => response)
             .then(data => console.log(data));
-
     </script>
 </body>
 
