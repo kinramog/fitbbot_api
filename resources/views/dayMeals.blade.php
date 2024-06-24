@@ -73,7 +73,7 @@ $sum = array_reduce($arr, function ($sum, $item) {
                     <li class="list-group-item  rounded mb-3 shadow-sm">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-2">{{$todayMeal["name"]}}</h5>
-                            <span class="text-muted small text-end">{{(new DateTime($todayMeal["created_at"]))->format('Y-m-d H:i')}}</span>
+                            <span class="text-muted small text-end">{{Carbon::parse($todayMeal["created_at"])->setTimezone($timezone)->format('H:i')}}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-1">
                             <div class="d-flex flex-column">
@@ -142,8 +142,8 @@ $sum = array_reduce($arr, function ($sum, $item) {
         </div>
         <hr>
         <div class="mt-3">
-            <h3 class="text">Итого за сегодня:</h3>
-            <div class="d-flex flex-column justify-content-between mb-1">
+            <h3 class="text"><strong>Итого за сегодня:</strong></h3>
+            <div class="d-flex flex-column justify-content-between mb-3">
                 <div class="d-flex">
                     <span><strong>Белки - </strong>{{$sum["total_proteins"]}} г</span>
                 </div>
@@ -154,7 +154,7 @@ $sum = array_reduce($arr, function ($sum, $item) {
                     <span><strong>Углеводы - </strong>{{$sum["total_carbohydrates"]}} г</span>
                 </div>
                 <div class="d-flex">
-                    <span><strong>Калории - </strong>{{$sum["total_calories"]}} г</span>
+                    <span><strong>Калории - </strong>{{$sum["total_calories"]}} </span>
                 </div>
             </div>
         </div>
@@ -171,6 +171,11 @@ $sum = array_reduce($arr, function ($sum, $item) {
 
         tg.MainButton.show();
         tg.MainButton.text = "Закрыть"
+
+        tg.onEvent('mainButtonClicked', () => {
+            tg.close()
+        })
+
 
         document.querySelectorAll('#arrow-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
